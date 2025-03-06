@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit-IQ: AI-Powered PCB Design SaaS</title>
+    <style>
+        :root {
+            --primary: #0076FF;
+            --primary-dark: #0057b8;
+            --secondary: #00C891;
+            --dark: #2D3748;
+            --light: #F8FAFC;
+            --gray: #718096;
+            --danger: #E53E3E;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.5;
+            color: var(--dark);
+            background-color: #fff;
+        }
+        
+        .pitch-deck {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .slide {
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 1px solid #edf2f7;
+            scroll-snap-align: start;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        p {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* Cover Slide */
+        .cover {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Problem Slide */
+        .problem-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .problem-card {
+            background-color: #FEF2F2;
+            border-left: 4px solid var(--danger);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+        
+        .problem-card h3 {
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .problem-card ul {
+            padding-left: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .problem-card li {
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Solution Slide */
+        .solution-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .solution-card {
+            background-color: #F0FFF4;
+            border-left: 4px solid var(--secondary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+        
+        .solution-card h3 {
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .solution-card ul {
+            padding-left: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .solution-card li {
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Market Slide */
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-label {
+            font-size: 1.125rem;
+            color: var(--gray);
+        }
+        
+        /* Product Slide */
+        .tech-workflow {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .tech-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Business Model Slide */
+        .pricing-tiers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .tier-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid var(--primary);
+        }
+        
+        .tier-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tier-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .tier-price span {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--gray);
+        }
+        
+        .tier-features {
+            margin-top: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        .tier-features li {
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Team Slide */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .team-member {
+            text-align: center;
+        }
+        
+        /* Removed member-avatar style */
+        
+        .member-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .member-title {
+            font-size: 1rem;
+            color: var(--gray);
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Contact Slide */
+        .contact-slide {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+        }
+        
+        .contact-info {
+            margin: 2rem 0;
+            font-size: 1.25rem;
+        }
+        
+        .contact-info p {
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Agentic AI Diagram */
+        .agentic-diagram {
+            font-family: monospace;
+            background-color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .agentic-diagram pre {
+            font-size: 0.875rem;
+            line-height: 1.25;
+            white-space: pre;
+        }
+        
+        @media (max-width: 768px) {
+            .problem-container, 
+            .solution-container,
+            .market-stats,
+            .pricing-tiers,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pitch-deck">
+        <!-- Cover Slide -->
+        <div class="slide cover">
+            <div class="logo">Circuit-IQ</div>
+            <div class="tagline">Revolutionizing PCB Design with Agentic AI: Text to Production-Ready Gerber Files</div>
+        </div>
+        
+        <!-- Problem Slide -->
+        <div class="slide">
+            <h2>The Problem</h2>
+            <p>PCB design is currently constrained by high costs, limited resources, and extended timelines.</p>
+            
+            <div class="problem-container">
+                <div class="problem-card">
+                    <h3>Prohibitive Costs</h3>
+                    <ul>
+                        <li><strong>Electrical engineers cost $150-250/hour</strong>, making PCB design inaccessible for small teams</li>
+                        <li><strong>Each design iteration</strong> requires additional engineering time, multiplying costs</li>
+                        <li>Companies often delay innovation due to engineering resource limitations</li>
+                    </ul>
+                </div>
+                
+                <div class="problem-card">
+                    <h3>Extended Design Cycles</h3>
+                    <ul>
+                        <li>Traditional PCB design requires <strong>weeks or months</strong> from concept to production</li>
+                        <li>Multiple handoffs between product, engineering, and manufacturing teams</li>
+                        <li>Human error introduces costly manufacturing issues and delays</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Solution Slide -->
+        <div class="slide">
+            <h2>Our Solution</h2>
+            <p>Circuit-IQ completely revolutionizes PCB design by converting natural language into production-ready Gerber files with advanced AI.</p>
+            
+            <div class="solution-container">
+                <div class="solution-card">
+                    <h3>Agentic AI Design</h3>
+                    <ul>
+                        <li><strong>Text-to-PCB technology</strong> eliminates the need for electrical engineers</li>
+                        <li>Specialized AI agents handle each layer of PCB design independently</li>
+                        <li>Automated design validation ensures manufacturing compatibility</li>
+                    </ul>
+                </div>
+                
+                <div class="solution-card">
+                    <h3>Business Impact</h3>
+                    <ul>
+                        <li><strong>85% reduction in labor costs</strong> by automating skilled engineering work</li>
+                        <li><strong>10x faster design cycles</strong> from weeks to minutes</li>
+                        <li>Unlimited iterations with no additional engineering costs</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="agentic-diagram">
+                <pre>+------------------------+
+|     Boss Agent       |
++----------+-----------+
+           |
+           | Distributes tasks via
+           | message passing
+           v
++-------+-------+-------+-------+-------+-------+
+|       |       |       |       |       |       |
+v       v       v       v       v       v       v
+                                                 
++------+ +------+ +------+ +------+ +------+ +------+     +----------+
+|Copper| |Copper| |Solder| |Solder| |Silk- | |Drill |     |  Gerber  |
+| Top  | |Bottom| |Mask T| |Mask B| |screen| |Agent | --> |   ZIP    |
++------+ +------+ +------+ +------+ +------+ +------+     +----------+</pre>
+            </div>
+        </div>
+        
+        <!-- Market Slide -->
+        <div class="slide">
+            <h2>Total Addressable Market</h2>
+            <p>Circuit-IQ targets the massive global PCB design market with a SaaS approach that can serve businesses of all sizes.</p>
+            
+            <div class="market-stats">
+                <div class="stat-card">
+                    <div class="stat-value">$20B+</div>
+                    <div class="stat-label">Global PCB Design Market Size</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value">9M+</div>
+                    <div class="stat-label">PCBs Produced Annually by JLCPCB Alone</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value">12.5%</div>
+                    <div class="stat-label">Annual Market Growth Rate</div>
+                </div>
+            </div>
+            
+            <h3>Our Target Segments</h3>
+            <ul>
+                <li><strong>Hardware Startups:</strong> Companies that struggle with EE recruiting and limited resources</li>
+                <li><strong>Medium-Sized Manufacturers:</strong> Organizations looking to reduce engineering overhead</li>
+                <li><strong>Large Electronics Companies:</strong> Enterprise clients seeking to accelerate prototyping</li>
+            </ul>
+        </div>
+        
+        <!-- Product Slide -->
+        <div class="slide">
+            <h2>How It Works</h2>
+            <p>Our proprietary agentic AI framework handles the complete PCB design process from text input to Gerber files.</p>
+            
+            <div class="tech-workflow">
+                <div class="tech-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Natural Language Processing</h4>
+                        <p>Our NLP engine parses technical specifications from plain text descriptions, extracting requirements, constraints, and components needed for the design.</p>
+                    </div>
+                </div>
+                
+                <div class="tech-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Component Selection & Sourcing</h4>
+                        <p>Specialized agents match requirements to optimal components from our database of over 1 million parts, considering availability, cost, and performance characteristics.</p>
+                    </div>
+                </div>
+                
+                <div class="tech-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Automated Circuit Design</h4>
+                        <p>Circuit topology is generated using our proprietary algorithms that account for signal integrity, thermal management, and design for manufacturing principles.</p>
+                    </div>
+                </div>
+                
+                <div class="tech-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>PCB Layout & Routing</h4>
+                        <p>Layer-specific agents collaborate to place components and route traces, ensuring optimal layouts while meeting electrical and mechanical requirements.</p>
+                    </div>
+                </div>
+                
+                <div class="tech-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Production-Ready Output</h4>
+                        <p>Complete Gerber files, BOM (Bill of Materials), and assembly instructions are generated and validated for immediate manufacturing submission.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Business Model Slide -->
+        <div class="slide">
+            <h2>B2B SaaS Business Model</h2>
+            <p>Circuit-IQ offers a tiered subscription model with pricing based on design complexity and volume.</p>
+            
+            <div class="pricing-tiers">
+                <div class="tier-card">
+                    <div class="tier-name">Startup</div>
+                    <div class="tier-price">$499<span>/month</span></div>
+                    <p>Perfect for early-stage hardware companies and small teams.</p>
+                    <ul class="tier-features">
+                        <li>Up to 5 simple PCB designs per month</li>
+                        <li>Basic component library access</li>
+                        <li>Standard production file formats</li>
+                        <li>Email support</li>
+                    </ul>
+                </div>
+                
+                <div class="tier-card">
+                    <div class="tier-name">Professional</div>
+                    <div class="tier-price">$1,999<span>/month</span></div>
+                    <p>For growing hardware companies with regular design needs.</p>
+                    <ul class="tier-features">
+                        <li>Up to 20 designs per month</li>
+                        <li>Advanced component library</li>
+                        <li>Design optimization features</li>
+                        <li>Priority support</li>
+                    </ul>
+                </div>
+                
+                <div class="tier-card">
+                    <div class="tier-name">Enterprise</div>
+                    <div class="tier-price">Custom</div>
+                    <p>For large organizations with high-volume design requirements.</p>
+                    <ul class="tier-features">
+                        <li>Unlimited designs</li>
+                        <li>Full component library access</li>
+                        <li>API integration with existing tools</li>
+                        <li>Dedicated account manager</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Revenue Projections</h3>
+            <p>Based on current market size and conservative adoption rates, we project:</p>
+            <ul>
+                <li><strong>Year 1:</strong> $2.5M ARR with 120 customers</li>
+                <li><strong>Year 3:</strong> $18M ARR with 650+ customers</li>
+                <li><strong>Year 5:</strong> $45M ARR with 1,500+ customers</li>
+            </ul>
+        </div>
+        
+        <!-- Traction Slide -->
+        <div class="slide">
+            <h2>Early Traction & Roadmap</h2>
+            
+            <h3>Current Milestones</h3>
+            <ul>
+                <li><strong>MVP Developed:</strong> Core text-to-PCB technology successfully demonstrated with 94% accuracy</li>
+                <li><strong>Beta Partnerships:</strong> 5 hardware startups currently testing our platform</li>
+                <li><strong>JLCPCB Integration:</strong> Direct manufacturing pipeline established with leading PCB manufacturer</li>
+            </ul>
+            
+            <h3>6-Month Roadmap</h3>
+            <ul>
+                <li><strong>Q2 2025:</strong> Public beta launch with support for 4-layer PCBs</li>
+                <li><strong>Q3 2025:</strong> Component sourcing integration with DigiKey and Mouser</li>
+                <li><strong>Q4 2025:</strong> Full commercial launch with enterprise API</li>
+            </ul>
+            
+            <h3>Go-to-Market Strategy</h3>
+            <ul>
+                <li><strong>Direct Sales:</strong> Target hardware accelerators and innovation labs</li>
+                <li><strong>Strategic Partnerships:</strong> Integrate with PCB manufacturers and component suppliers</li>
+                <li><strong>Content Marketing:</strong> Educational resources demonstrating cost/time savings</li>
+            </ul>
+        </div>
+        
+        <!-- Team Slide -->
+        <div class="slide">
+            <h2>Our Team</h2>
+            <p>A diverse team of experts in AI, electrical engineering, and business development.</p>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-name">Jane Doe</div>
+                    <div class="member-title">CEO & Co-founder</div>
+                    <p>Former Head of Hardware at SpaceX with 15+ years in electronics design.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">John Smith</div>
+                    <div class="member-title">CTO & Co-founder</div>
+                    <p>PhD in AI from Stanford, previously Senior AI Researcher at DeepMind.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">Alex Kim</div>
+                    <div class="member-title">VP of Engineering</div>
+                    <p>20+ years in PCB design automation, former Lead Engineer at Altium.</p>
+                </div>
+            </div>
+            
+            <h3>Advisors</h3>
+            <ul>
+                <li><strong>Dr. Robert Chen:</strong> Professor of Electrical Engineering, MIT</li>
+                <li><strong>Sarah Johnson:</strong> Former CEO of PCB Manufacturing Company</li>
+                <li><strong>Michael Wong:</strong> Partner at Tech Ventures, focusing on hardware startups</li>
+            </ul>
+        </div>
+        
+        <!-- Contact Slide -->
+        <div class="slide contact-slide">
+            <h2>Revolutionize Your PCB Design Process</h2>
+            <p>Join the AI-powered PCB design revolution and eliminate engineering bottlenecks.</p>
+            
+            <div class="contact-info">
+                <p>Email: info@circuit-iq.com</p>
+                <p>Phone: (555) 123-4567</p>
+                <p>Website: www.circuit-iq.com</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
